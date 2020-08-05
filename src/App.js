@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route} from 'react-router-dom';
 
 import LoginPage from './components/pages/LoginPage';
@@ -8,11 +8,16 @@ import DeckMenu from './components/pages/DeckMenu';
 import BattleMenu from './components/pages/BattleMenu';
 
 const App = () => {
+	const [twitterToken,setTwitterToken] = useState('token');
 	return(
 		<div>
 			<BrowserRouter>
 				<div>
-					<Route path='/' exact component = {LoginPage}/>
+					<Route 
+						path='/' exact 
+						component = {LoginPage}
+						value = {twitterToken}
+					/>
 					<Route path='/MainMenu' exact component = {MainMenu}/>
 					<Route path='/CreateCard' exact component = {CreateCard}/>
 					<Route path='/DeckMenu' exact component = {DeckMenu}/>

@@ -1,17 +1,102 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route ,Link} from 'react-router-dom';
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import axios from 'axios';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
+const provider = new firebase.auth.TwitterAuthProvider();
+const firebaseConfig = {
+    apiKey: "AIzaSyCSlx2lk8ZxGR2CwOK7Ms_hBMyGNib-yE0",
+    authDomain: "helloworld1132.firebaseapp.com",
+    databaseURL: "https://helloworld1132.firebaseio.com",
+    projectId: "helloworld1132",
+    storageBucket: "helloworld1132.appspot.com",
+    messagingSenderId: "886818680048",
+    appId: "1:886818680048:web:b66c61deb8dd862489a635"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const PageOne = () =>{
+    return(
+        <div>
+            pageOne
+            <Link to='/'>
+                <button>
+                    go to home
+                </button>
+            </Link>
+        </div>
+    );
+};
+const Game = () => {
+    const [button,setButton] = useState('hello!!');
+    const [twitter,setTwitter] = useState('login twitter');
+    
+    const getHttp = () => {
+        setButton('getHTTP');
+        axios
+            .get('https://us-central1-helloworld1132.cloudfunctions.net/helloWorld')
+            .then((result) =>{
+                setButton(result.data);
+            })
+            .catch((error)=>{
+                console.error(error);
+            });
+    }
+    const twitterOauth = () => {
+        firebase.auth().signInWithPopup(provider).then((result)=>{
+            const displayName = result.user.displayName;
+            setTwitter(displayName);
+        }).catch((error)=>{
+            console.log('error');
+            console.log(error.code);
+        });
+    }
+    const addData = () => {
+        db.collection('sample1').add({
+            first:'国木田',
+            last:'花丸'
+        }).then((docRef)=>{
+            console.log('Document written with ID: ',docRef.id);
+        }).catch((error)=>{
+            console.log('error',error);
+        });
+    }
+    return(
+        <div>
+            <button  onClick={()=>getHttp()}>
+                {button}
+            </button>
+            <button  onClick={()=>twitterOauth()}>
+                {twitter}
+            </button>
+            <button  onClick={()=>addData()}>
+                AddData
+            </button>
+            <Link to='/pageOne'>
+                <button>
+                    go to pageOne
+                </button>
+            </Link>
+        </div>
+    );
+};
+const App = () => {
+    return(
+        <div>
+            <BrowserRouter>
+                <div>
+                    <Route path='/' exact component = {Game}/>
+                    <Route path='/pageOne' exact component = {PageOne}/>
+                </div>
+            </BrowserRouter>
+        </div>
+    );
+};
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+    <App/>,
+    document.getElementById('root')
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();

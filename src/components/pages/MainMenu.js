@@ -23,8 +23,8 @@ const MainMenu = () => {
 	}
 	const addData = () => {
 		db.collection('sample1').add({
-			first:'国木田',
-			last:'花丸'
+			first:'湊',
+			last:'みお'
 		}).then((docRef)=>{
 			console.log('Document written with ID: ',docRef.id);
 		}).catch((error)=>{
@@ -39,9 +39,19 @@ const MainMenu = () => {
 			<button  onClick={()=>addData()}>
 				AddData
 			</button>
-			<Link to='/pageOne'>
+			<Link to='/CreateCard'>
 				<button>
-					go to pageOne
+					ツイートからカードを生成
+				</button>
+			</Link>
+			<Link to='/DeckMenu'>
+				<button>
+					デッキ構築
+				</button>
+			</Link>
+			<Link to='/BattleMenu'>
+				<button>
+					バトル
 				</button>
 			</Link>
 		</div>

@@ -7,7 +7,7 @@ import 'firebase/firestore';
 
 const db = firebase.firestore();
 
-const MainMenu = () => {
+const MainMenu = (props) => {
 	const [button,setButton] = useState('hello!!');
 
 	const getHttp = () => {
@@ -33,6 +33,7 @@ const MainMenu = () => {
 	}
 	return(
 		<div>
+			{props.twitterData.displayName}でログインしました。
 			<button  onClick={()=>getHttp()}>
 				{button}
 			</button>

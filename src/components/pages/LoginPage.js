@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import firebase from '../../Firebase';
 import 'firebase/auth';
+import { withRouter } from 'react-router-dom';
 
 const provider = new firebase.auth.TwitterAuthProvider();
 
-const LoginMenu= (props) => {
-	const [twitter,setTwitter] = useState('login twitter');
-	console.log(props.twitterToken);
-
+const LoginPage= (props) => {
 	const twitterOauth = () => {
 		firebase.auth().signInWithPopup(provider).then((result)=>{
 			const displayName = result.user.displayName;
 			const token = result.credential.accessToken;
 			const secret = result.credential.secret;
-			setTwitter(displayName);
+			props.setTwitterData({
+				token:token,
+				secret:secret,
+				displayName:displayName
+			});
 			props.history.push('/MainMenu');
 		}).catch((error)=>{
 			console.log('error');
@@ -23,9 +25,9 @@ const LoginMenu= (props) => {
 	return(
 		<div>
 			<button  onClick={()=>twitterOauth()}>
-				{twitter}
+				ツイッターでログインする
 			</button>
 		</div>
 	);
 };
-export default LoginMenu;
+export default withRouter(LoginPage);

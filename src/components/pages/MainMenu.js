@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import firebase from '../../Firebase';
-import 'firebase/auth';
-import 'firebase/firestore';
-
-const db = firebase.firestore();
+import {db} from '../../Firebase';
 
 const MainMenu = (props) => {
 	const [button,setButton] = useState('hello!!');

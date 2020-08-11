@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import firebase from '../../Firebase';
-import 'firebase/auth';
+import {auth, firebase} from '../../Firebase';
 import { withRouter } from 'react-router-dom';
 
 const provider = new firebase.auth.TwitterAuthProvider();
 
 const LoginPage= (props) => {
 	const twitterOauth = () => {
-		firebase.auth().signInWithPopup(provider).then((result)=>{
+		auth.signInWithPopup(provider).then((result)=>{
 			const displayName = result.user.displayName;
 			const token = result.credential.accessToken;
 			const secret = result.credential.secret;

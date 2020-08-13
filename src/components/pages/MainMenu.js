@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
-import firebase from '../../Firebase';
-import 'firebase/auth';
-import 'firebase/firestore';
+import {db} from '../../Firebase';
 
-const db = firebase.firestore();
-
-const MainMenu = () => {
+const MainMenu = (props) => {
 	const [button,setButton] = useState('hello!!');
 
 	const getHttp = () => {
@@ -33,12 +29,7 @@ const MainMenu = () => {
 	}
 	return(
 		<div>
-			<button  onClick={()=>getHttp()}>
-				{button}
-			</button>
-			<button  onClick={()=>addData()}>
-				AddData
-			</button>
+			{props.twitterData.displayName}でログインしました。
 			<Link to='/CreateCard'>
 				<button>
 					ツイートからカードを生成

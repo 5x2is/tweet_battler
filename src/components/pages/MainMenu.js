@@ -30,12 +30,6 @@ const MainMenu = (props) => {
 	return(
 		<div>
 			{props.twitterData.displayName}でログインしました。
-			<button  onClick={()=>getHttp()}>
-				{button}
-			</button>
-			<button  onClick={()=>addData()}>
-				AddData
-			</button>
 			<Link to='/CreateCard'>
 				<button>
 					ツイートからカードを生成
